@@ -37,20 +37,6 @@ int main() {
         } else if (regex_match(input, sm, add_ticket)) {
             addTicket(input, sm);
         } else if (regex_match(input, query)) {
-            //todo usunąc śmieci
-            /*cout << "\n Bilety: \n";
-            for(auto it : tickets) {
-                cout << it.first << " " << it.second.first << " " << it.second.second << endl;
-            }
-            cout << "\n Kursy: \n";
-            for(auto it : mapa) {
-                cout << it.first << " ";
-                for (auto itt : it.second) {
-                    cout << itt.first << " " << itt.second << " ";
-                }
-                cout << endl;
-            }*/
-            //todo tu koniec smieci
             answer(input);
         } else {
             cerr << "Error in line " << lineCount << ": " << input << endl;
@@ -75,7 +61,6 @@ void addCourse(string input, int lineNumber) {
     while (regex_search(pom, sm, time_stop)) {
         time = stoi(sm[1]) * 60 + stoi(sm[2]);
         stopName = sm[3];
-        //todo czy czasy mogą być równe
         bool stop = false;
         for(auto it : mapa[lineNumber]) {
             if (it.second == stopName)
@@ -111,11 +96,6 @@ void findTickets(int allTime) {
     }
     dp[0][0] = 0;
 
-    /*cout << allTime << ":\n";
-    for (auto it : tickets) {
-        cout << it.first << " " << it.second.first << " " << it.second.second << "\n";
-    }*/
-
     for (int i = 1; i < 4; i++) {
         for (auto it : tickets) {
             for (int j = it.second.second; j <= 2 * allTime; j++) {
@@ -134,8 +114,6 @@ void findTickets(int allTime) {
             }
         }
     }
-
-    //cout << minimum << " " << minimumI << " " << minimumJ << "\n";
 
     int oneTicket = INT_MAX / 2;
     for (auto it : tickets) {
@@ -177,14 +155,8 @@ void findTickets(int allTime) {
 
 void answer(string input) {
 
-    //cout << input << "\n";
-
     smatch sm;
     regex_match(input, sm, query);
-
-    /*for (auto it : sm) {
-        cout << it << "\n";
-    }*/
 
     stringstream strumien;
 
@@ -195,11 +167,10 @@ void answer(string input) {
     strumien.clear();
     strumien.str(sm[2]);
 
-    //cout << sm[2] << "\n";
 
     while(strumien >> lineNumber >> next) {
         int t1 = 0, t2 = 0;
-        //cout << start << " " << lineNumber << " " << next << "\n";
+
         if (mapa.find(lineNumber) == mapa.end()) {
             isPossible = false;
             break;
